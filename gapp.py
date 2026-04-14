@@ -26,6 +26,9 @@ app.config['SESSION_COOKIE_NAME'] = 'distillerat_session'
 db = SQLAlchemy(app)
 login_manager = LoginManager(app)
 
+with app.app_context():
+    db.create_all()
+
 # --- OAuth ---
 github_bp = make_github_blueprint(
     client_id=os.getenv('GITHUB_CLIENT_ID'),
@@ -133,6 +136,4 @@ def logout():
 
 # --- Entry ---
 if __name__ == '__main__':
-    with app.app_context():
-        db.create_all()
     app.run(debug=True, host='https://distillerat.onrender.com/')  # ← force localhost
