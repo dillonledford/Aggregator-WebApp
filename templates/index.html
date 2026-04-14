@@ -13,7 +13,7 @@
         <button type="submit">Generate</button>
     </form>
     {% if output %}
-        <p>{{ output }}</p>
+        <p>{{ output | safe }}</p>
     {% endif %}
 </body>
 </html>
