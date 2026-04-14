@@ -19,7 +19,7 @@
     </form>
     {% if output %}
         <h2>Result</h2>
-        <p>{{ output }}</p>
+        <p>{{ output | safe }}</p>
     {% endif %}
     <br><a href="/">Home</a>
 </body>
