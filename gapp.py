@@ -26,16 +26,12 @@ app.config['SESSION_COOKIE_NAME'] = 'distillerat_session'
 db = SQLAlchemy(app)
 login_manager = LoginManager(app)
 
-with app.app_context():
-    db.create_all()
-
 # --- OAuth ---
 github_bp = make_github_blueprint(
     client_id=os.getenv('GITHUB_CLIENT_ID'),
     client_secret=os.getenv('GITHUB_CLIENT_SECRET'),
     redirect_to="dashboard",
     storage=SessionStorage()
-    # NO redirect_url here — let Flask-Dance generate it automatically
 )
 app.register_blueprint(github_bp, url_prefix='/login')
 
@@ -47,6 +43,10 @@ class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     github_id = db.Column(db.String, unique=True)
     username = db.Column(db.String)
+
+# --- Create tables after model is defined ---
+with app.app_context():
+    db.create_all()
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -111,7 +111,7 @@ def fetch_feed(url, days=1):
 def fetch():
     output = None
     if request.method == "POST":
-        repo = request.form.get("repo")  # e.g. facebook/react'Facebook'
+        repo = request.form.get("repo")
         timeframe = int(request.form.get("timeframe", 7))
         mode = request.form.get("mode", "summarize")
         url = f"https://github.com/{repo}/releases.atom"
@@ -136,4 +136,4 @@ def logout():
 
 # --- Entry ---
 if __name__ == '__main__':
-    app.run(debug=True, host='https://distillerat.onrender.com/')  # ← force localhost
+    app.run(debug=True, host='localhost')
