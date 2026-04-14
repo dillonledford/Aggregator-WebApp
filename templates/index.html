@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head><title>AI Tool</title></head>
+<body>
+    <form method="POST">
+        <textarea name="prompt" rows="4" cols="50"></textarea><br>
+		<select name="mode">
+			<option value="synthesize">Synthesize</option>
+			<option value="summarize">Summarize</option>
+			<option value="research">Research</option>
+		</select>
+        <button type="submit">Generate</button>
+    </form>
+    {% if output %}
+        <p>{{ output }}</p>
+    {% endif %}
+</body>
+</html>
