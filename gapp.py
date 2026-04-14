@@ -1,5 +1,4 @@
 import os
-os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
 
 from flask import Flask, render_template, request, redirect, url_for
 from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required, current_user
@@ -109,7 +108,7 @@ def fetch_feed(url, days=1):
 def fetch():
     output = None
     if request.method == "POST":
-        repo = request.form.get("repo")  # e.g. facebook/react
+        repo = request.form.get("repo")  # e.g. facebook/react'Facebook'
         timeframe = int(request.form.get("timeframe", 7))
         mode = request.form.get("mode", "summarize")
         url = f"https://github.com/{repo}/releases.atom"
