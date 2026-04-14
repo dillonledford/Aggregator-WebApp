@@ -1,6 +1,6 @@
 Flask==3.1.0
-Werkzeug==3.1.0
-flask-login==0.6.2
+Werkzeug==2.3.7
+flask-login==0.6.3
 flask-dance==7.0.0
 flask-sqlalchemy==3.1.1
 requests==2.31.0
