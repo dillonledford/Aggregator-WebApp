@@ -17,6 +17,7 @@ from datetime import datetime, timedelta, timezone
 import markdown
 from flask import request as flask_request
 import requests
+from flask_dance.consumer import OAuth2ConsumerBlueprint
 
 load_dotenv()
 print("CLIENT ID:", os.getenv('GITHUB_CLIENT_ID'))
@@ -43,10 +44,25 @@ github_bp = make_github_blueprint(
 app.register_blueprint(github_bp, url_prefix='/login')
 
 
+# Figma Blueprint
+figma_bp = OAuth2ConsumerBlueprint(
+    "figma", __name__,
+    client_id=os.getenv('FIGMA_CLIENT_ID'),
+    client_secret=os.getenv('FIGMA_CLIENT_SECRET'),
+    base_url="https://api.figma.com/",
+    authorization_url="https://www.figma.com/oauth",
+    token_url="https://api.figma.com/v1/oauth/token",
+    
+    redirect_to="figma",
+    storage=SessionStorage(),
+    scope="file_content:read"
+)
+app.register_blueprint(figma_bp, url_prefix='/login/figma')
+
+
 @app.before_request
 def log_request():
     print("REQUEST URL:", flask_request.url)
-
 
 # --- Gemini ---
 client = genai.Client(api_key=os.getenv('GEMINI_API_KEY'))
@@ -86,11 +102,12 @@ def github_logged_in(blueprint, token):
     return False
 
 def fetch_figma(file_id, token):
-    headers = {"X-Figma-Token": token}
+    headers = {"Authorization": f"Bearer {token}"}  # ← change this line
     
     # Get file info
     file_resp = requests.get(f"https://api.figma.com/v1/files/{file_id}", headers=headers)
     file_data = file_resp.json()
+    print("FIGMA API RESPONSE:", file_data)
     
     # Get version history
     versions_resp = requests.get(f"https://api.figma.com/v1/files/{file_id}/versions", headers=headers)
@@ -128,7 +145,13 @@ def figma():
     if request.method == "POST":
         file_id = request.form.get("file_id")
         mode = request.form.get("mode", "summarize")
-        token = os.getenv("FIGMA_ACCESS_TOKEN")
+
+        token = figma_bp.session.token.get("access_token") if figma_bp.session.token else None
+        print("FIGMA TOKEN:", token)
+        print("FILE ID:", file_id)
+
+        if not token:
+            return redirect(url_for("figma.login"))
         content = fetch_figma(file_id, token)
         response = client.models.generate_content(
             model="gemini-2.5-flash-lite",
