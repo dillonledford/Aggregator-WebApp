@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html>
+<head><title>Distillerat - Report</title></head>
+<body>
+    <h1>Report</h1>
+    {% if output %}
+        <div>{{ output | safe }}</div>
+    {% endif %}
+    <br><a href="/dashboard">Back to Dashboard</a>
+</body>
+</html>

@@ -3,8 +3,50 @@
 <head><title>Distillerat</title></head>
 <body>
     <h1>Welcome {{ current_user.username }}</h1>
-    <a href="/fetch">Fetch Releases</a> |
-	<a href="/figma">Fetch Figma</a> |
+
+	<a href="/login/google/google">Connect Google Drive</a>
+
+    <h2>My Sources</h2>
+    
+	<form action="/add_source" method="POST">
+        <input type="hidden" name="source_type" value="github">
+        <input name="identifier" placeholder="e.g. microsoft/vscode" size="30">
+        <input name="label" placeholder="Label (optional)" size="20">
+        <button type="submit">Add GitHub Repo</button>
+    </form>
+
+
+	<form action="/add_source" method="POST">
+		<input type="hidden" name="source_type" value="google_drive">
+		<input name="identifier" placeholder="Google Drive folder ID" size="30">
+		<input name="label" placeholder="Label (optional)" size="20">
+		<button type="submit">Add Drive Folder</button>
+	</form>
+
+
+    <ul>
+    {% for source in sources %}
+        <li>{{ source.source_type | upper }}: {{ source.label }} 
+            <a href="/remove_source/{{ source.id }}">Remove</a>
+        </li>
+    {% endfor %}
+    </ul>
+
+    <h2>Generate Report</h2>
+    <form action="/report" method="POST">
+        <select name="timeframe">
+            <option value="1">Past 24 hours</option>
+            <option value="7" selected>Past week</option>
+            <option value="30">Past month</option>
+        </select>
+        <select name="mode">
+            <option value="synthesize">Synthesize</option>
+            <option value="summarize">Summarize</option>
+            <option value="research">Research</option>
+        </select>
+        <button type="submit">Generate Report</button>
+    </form>
+
     <a href="/logout">Logout</a>
 </body>
 </html>
