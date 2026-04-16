@@ -19,6 +19,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
 app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'
 app.config['SESSION_COOKIE_HTTPONLY'] = True
 app.config['SESSION_COOKIE_NAME'] = 'distillerat_session'
+app.config['SESSION_COOKIE_SECURE'] = True
 
 db.init_app(app)
 login_manager = LoginManager(app)
