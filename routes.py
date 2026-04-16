@@ -40,6 +40,11 @@ def register_routes(app):
 
     @app.route('/')
     def index():
+        if current_user.is_authenticated:
+            from flask_dance.contrib.google import google
+            sources = UserSource.query.filter_by(user_id=current_user.id).all()
+            google_connected = google.token is not None
+            return render_template('dashboard.html', sources=sources, google_connected=google_connected)
         return render_template('dashboard.html')
 
     @app.route('/dashboard')
