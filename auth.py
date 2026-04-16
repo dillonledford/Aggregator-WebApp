@@ -43,5 +43,6 @@ google_bp = make_google_blueprint(
         "https://www.googleapis.com/auth/documents.readonly"
     ],
     redirect_to="dashboard",
-    storage=SessionStorage()
+    storage=SessionStorage(),
+    redirect_url="https://distillerat.onrender.com/login/google/google/authorized"
 )

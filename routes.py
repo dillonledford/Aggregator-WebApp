@@ -40,15 +40,15 @@ def register_routes(app):
 
     @app.route('/')
     def index():
-        if current_user.is_authenticated:
-            return redirect(url_for('dashboard'))
-        return render_template('login.html')
+        return render_template('dashboard.html')
 
     @app.route('/dashboard')
     @login_required
     def dashboard():
         sources = UserSource.query.filter_by(user_id=current_user.id).all()
-        return render_template('dashboard.html', sources=sources)
+        from flask_dance.contrib.google import google
+        google_connected = google.token is not None
+        return render_template('dashboard.html', sources=sources, google_connected=google_connected)
 
     @app.route('/add_source', methods=["POST"])
     @login_required
@@ -75,6 +75,21 @@ def register_routes(app):
             db.session.delete(source)
             db.session.commit()
         return redirect(url_for('dashboard'))
+
+    @app.route('/visitor_report', methods=["POST"])
+    def visitor_report():
+        repo = request.form.get("repo")
+        timeframe = int(request.form.get("timeframe", 7))
+        output = None
+        if repo:
+            url = f"https://github.com/{repo}/releases.atom"
+            items = fetch_feed(url, days=timeframe)
+            if items:
+                combined = "\n\n".join(items)
+                output = markdown.markdown(get_gemini_response(combined, PROMPTS["synthesize"]))
+            else:
+                output = "No releases found for that repo in the selected timeframe."
+        return render_template('report.html', output=output)
 
     @app.route('/report', methods=["POST"])
     @login_required

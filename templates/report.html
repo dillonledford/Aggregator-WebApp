@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html>
-<head><title>Distillerat - Report</title></head>
+<head>
+<title>Distillerat - Report</title>
+<link rel="stylesheet" href="static/styles.css">
+</head>
 <body>
     <h1>Report</h1>
     {% if output %}
         <div>{{ output | safe }}</div>
     {% endif %}
-    <br><a href="/dashboard">Back to Dashboard</a>
+    <br><a href="/">Back to Dashboard</a>
 </body>
 </html>

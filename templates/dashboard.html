@@ -1,32 +1,39 @@
 <!DOCTYPE html>
 <html>
-<head><title>Distillerat</title></head>
+<head>
+<title>Distillerat</title>
+<link rel="stylesheet" href="/static/styles.css">
+</head>
 <body>
+
+{% if current_user.is_authenticated %}
+    <!-- LOGGED IN USER VIEW -->
     <h1>Welcome {{ current_user.username }}</h1>
-
-	<a href="/login/google/google">Connect Google Drive</a>
-
+	
+	<img src="/static/Linked_igithub.png" alt="GitHub Connected">
+	
+	{% if google_connected %}
+		<img src="/static/Linked_igoogle.png" alt="Google Drive Connected">
+	{% else %}
+		<a href="/login/google/google"><img src="/static/igoogle.png" alt="Connect Google Drive"></a>
+	{% endif %}
+		
     <h2>My Sources</h2>
-    
-	<form action="/add_source" method="POST">
+    <form action="/add_source" method="POST">
         <input type="hidden" name="source_type" value="github">
         <input name="identifier" placeholder="e.g. microsoft/vscode" size="30">
         <input name="label" placeholder="Label (optional)" size="20">
         <button type="submit">Add GitHub Repo</button>
     </form>
-
-
-	<form action="/add_source" method="POST">
-		<input type="hidden" name="source_type" value="google_drive">
-		<input name="identifier" placeholder="Google Drive folder ID" size="30">
-		<input name="label" placeholder="Label (optional)" size="20">
-		<button type="submit">Add Drive Folder</button>
-	</form>
-
-
+    <form action="/add_source" method="POST">
+        <input type="hidden" name="source_type" value="google_drive">
+        <input name="identifier" placeholder="Google Drive folder ID" size="30">
+        <input name="label" placeholder="Label (optional)" size="20">
+        <button type="submit">Add Drive Folder</button>
+    </form>
     <ul>
     {% for source in sources %}
-        <li>{{ source.source_type | upper }}: {{ source.label }} 
+        <li>{{ source.source_type | upper }}: {{ source.label }}
             <a href="/remove_source/{{ source.id }}">Remove</a>
         </li>
     {% endfor %}
@@ -35,9 +42,9 @@
     <h2>Generate Report</h2>
     <form action="/report" method="POST">
         <select name="timeframe">
-            <option value="1">Past 24 hours</option>
-            <option value="7" selected>Past week</option>
-            <option value="30">Past month</option>
+            <option value="1">Today</option>
+            <option value="7" selected>This Week</option>
+            <option value="30">This Month</option>
         </select>
         <select name="mode">
             <option value="synthesize">Synthesize</option>
@@ -46,7 +53,28 @@
         </select>
         <button type="submit">Generate Report</button>
     </form>
-
     <a href="/logout">Logout</a>
+
+{% else %}
+    <!-- VISITOR VIEW -->
+    <h1>Distillerat</h1>
+    <p>Monitor changes across your tools and workflows.</p>
+    
+    <!-- GitHub login button image goes here -->
+    <a href="/login/github"><img src="/static/igithub.png" alt="Sign in with GitHub"></a>
+	
+    <h2>Try it out</h2>
+    <form action="/visitor_report" method="POST">
+        <input name="repo" placeholder="e.g. microsoft/vscode" size="30">
+        <select name="timeframe">
+            <option value="1">Today</option>
+            <option value="7" selected>This Week</option>
+            <option value="30">This Month</option>
+        </select>
+        <button type="submit">Generate Report</button>
+    </form>
+
+{% endif %}
+
 </body>
 </html>
