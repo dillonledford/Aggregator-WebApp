@@ -17,8 +17,9 @@
 	{% else %}
 		<a href="/login/google/google"><img src="/static/igoogle.png" alt="Connect Google Drive"></a>
 	{% endif %}
-		
-    <h2>My Sources</h2>
+	
+	<h2>Sources</h2>
+	
     <form action="/add_source" method="POST">
         <input type="hidden" name="source_type" value="github">
         <input name="identifier" placeholder="e.g. microsoft/vscode" size="30">
@@ -35,13 +36,23 @@
     </form>
 	{% endif %}
 	
-    <ul>
-    {% for source in sources %}
-        <li>{{ source.source_type | upper }}: {{ source.label }}
-            <a href="/remove_source/{{ source.id }}">Remove</a>
-        </li>
-    {% endfor %}
-    </ul>
+	<div class="sources-container">
+	{% for source in sources %}
+		<div class="source-chip">
+
+			{% if source.source_type == 'github' %}
+				<span class="chip-type-github">GitHub</span>
+			{% elif source.source_type == 'google_drive' %}
+				<span class="chip-type-google">Google Drive</span>
+			{% else %}
+				<span class="chip-type">{{ source.source_type }}</span>
+			{% endif %}
+
+			<span>{{ source.label }}</span>
+			<a href="/remove_source/{{ source.id }}">×</a>
+		</div>
+	{% endfor %}
+	</div>
 
     <h2>Generate Report</h2>
     <form action="/report" method="POST">
@@ -51,9 +62,10 @@
             <option value="30">This Month</option>
         </select>
         <select name="mode">
-            <option value="synthesize">Synthesize</option>
-            <option value="summarize">Summarize</option>
-            <option value="research">Research</option>
+            <option value="whats_changed">What's Changed</option>
+            <option value="big_picture">Big Picture</option>
+            <option value="short_version">Short Version</option>
+            <option value="needs_attention">Needs Attention</option>
         </select>
         <button type="submit">Generate Report</button>
     </form>
@@ -62,7 +74,7 @@
 {% else %}
     <!-- VISITOR VIEW -->
     <h1>Distillerat</h1>
-    <p>Monitor changes across your tools and workflows.</p>
+    <h3>Monitor changes across your projects, tools, and workflows.</h3>
     
     <!-- GitHub login button image goes here -->
     <a href="/login/github"><img src="/static/igithub.png" alt="Sign in with GitHub"></a>
