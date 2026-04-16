@@ -2,12 +2,12 @@
 <html>
 <head>
 <title>Distillerat - Report</title>
-<link rel="stylesheet" href="static/styles.css">
+<link rel="stylesheet" href="/static/styles.css">
 </head>
 <body>
     <h1>Report</h1>
     {% if output %}
-        <div>{{ output | safe }}</div>
+        <div class="report-content">{{ output | safe }}</div>
     {% endif %}
     <br><a href="/">Back to Dashboard</a>
 </body>
