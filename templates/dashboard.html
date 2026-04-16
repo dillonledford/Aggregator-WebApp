@@ -25,12 +25,16 @@
         <input name="label" placeholder="Label (optional)" size="20">
         <button type="submit">Add GitHub Repo</button>
     </form>
+	
+	{% if google_connected %}
     <form action="/add_source" method="POST">
         <input type="hidden" name="source_type" value="google_drive">
         <input name="identifier" placeholder="Google Drive folder ID" size="30">
         <input name="label" placeholder="Label (optional)" size="20">
         <button type="submit">Add Drive Folder</button>
     </form>
+	{% endif %}
+	
     <ul>
     {% for source in sources %}
         <li>{{ source.source_type | upper }}: {{ source.label }}
