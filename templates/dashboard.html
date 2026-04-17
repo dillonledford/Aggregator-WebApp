@@ -9,19 +9,15 @@
 
 {% if current_user.is_authenticated %}
     <!-- LOGGED IN USER VIEW -->
-    <h1>Welcome {{ current_user.username }}</h1>
 	
-	<img src="/static/Linked_igithub.png" alt="GitHub Connected">
+	<h1 style="font-size: 2.8em; font-weight:bold; text-align: center; margin-bottom: 0px;">Distillerat</h1>
+    <h3 style="font-weight:bold; text-align: center;">Monitor changes across your projects, tools, and workflows.</h3>
 	
-	{% if google_connected %}
-		<img src="/static/Linked_igoogle.png" alt="Google Drive Connected">
-	{% else %}
-		<a href="/login/google/google"><img src="/static/igoogle.png" alt="Connect Google Drive"></a>
-	{% endif %}
+    <h1 style="font-weight:bold; text-align: center; padding-top: 2%;">{{ current_user.username }}</h1>
+
+	<h2 style="font-weight:bold; text-align: center;">GitHub Source</h2>
 	
-	<h2>Sources</h2>
-	
-    <form action="/add_source" method="POST">
+    <form action="/add_source" method="POST" style="font-weight:bold; text-align: center;">
         <input type="hidden" name="source_type" value="github">
         <input name="identifier" placeholder="e.g. microsoft/vscode" size="30">
         <input name="label" placeholder="Label (optional)" size="20">
@@ -29,7 +25,10 @@
     </form>
 	
 	{% if google_connected %}
-    <form action="/add_source" method="POST">
+	
+	<h2 style="font-weight:bold; text-align: center;">Google Drive Source</h2>
+	
+    <form action="/add_source" method="POST" style="font-weight:bold; text-align: center;">
         <input type="hidden" name="source_type" value="google_drive">
         <input name="identifier" placeholder="Google Drive folder ID" size="30">
         <input name="label" placeholder="Label (optional)" size="20">
@@ -55,8 +54,8 @@
 	{% endfor %}
 	</div>
 
-    <h2>Generate Report</h2>
-    <form action="/report" method="POST">
+    <h2 style="font-weight:bold; text-align: center;">Generate Report</h2>
+    <form action="/report" method="POST"  style="font-weight:bold; text-align: center;">
         <select name="timeframe">
             <option value="1">Today</option>
             <option value="7" selected>This Week</option>
@@ -70,18 +69,23 @@
         </select>
         <button type="submit">Generate Report</button>
     </form>
-    <a href="/logout">Logout</a>
+	<br>
+		<img src="/static/Linked_igithub.png" alt="GitHub Connected" style="display: block; margin: auto;">
+	
+	{% if google_connected %}
+		<img src="/static/Linked_igoogle.png" alt="Google Drive Connected">
+	{% else %}
+		<a href="/login/google/google"><img src="/static/igoogle.png" alt="Connect Google Drive"  style="display: block; margin: auto;"></a>
+	{% endif %}
+	<br>
+	<a class="logout-link" href="/logout">Logout</a>
 
 {% else %}
     <!-- VISITOR VIEW -->
-    <h1>Distillerat</h1>
-    <h3>Monitor changes across your projects, tools, and workflows.</h3>
-    
-    <!-- GitHub login button image goes here -->
-    <a href="/login/github"><img src="/static/igithub.png" alt="Sign in with GitHub"></a>
+    <h1 style="font-size: 2.8em; font-weight:bold; text-align: center;">Distillerat</h1>
+    <h3 style="font-weight:bold; text-align: center;">Monitor changes across your projects, tools, and workflows.</h3>
 	
-    <h2>Try it out</h2>
-    <form action="/visitor_report" method="POST">
+    <form action="/visitor_report" method="POST" style="font-weight:bold; text-align: center;">
         <input name="repo" placeholder="e.g. microsoft/vscode" size="30">
         <select name="timeframe">
             <option value="1">Today</option>
@@ -90,6 +94,19 @@
         </select>
         <button type="submit">Generate Report</button>
     </form>
+
+	<div class="cta-box">
+	<h3 style="font-weight:bold;">Get more with a free account</h3>
+    <ul>
+        <li>Monitor multiple GitHub repos</li>
+        <li>Connect Google Drive folders</li>
+		<li>Keep connected repos and folders</li>
+        <li>Custom source labels</li>
+        <li>Save and revisit reports</li>
+		<!-- GitHub login button image goes here -->
+		<a href="/login/github"><img src="/static/igithub.png" alt="Sign in with GitHub" style="max-width: 22%;"></a>
+    </ul>
+</div>
 
 {% endif %}
 
