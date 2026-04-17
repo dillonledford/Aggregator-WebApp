@@ -79,6 +79,20 @@ h3 {
 
 .report-content h2 {
 	color: #87cefa;
+	padding-bottom: 0px;
+	margin-bottom: 0px;
+	text-align: center;
+	font-size: x-large;
+}
+
+.report-content h3 {
+	color: #87cefa;
+	border-bottom: 1px solid #333;
+	margin-bottom: 12px;
+}
+
+.report-content h4 {
+	color: #87cefa;
 	border-bottom: 1px solid #333;
 	padding-bottom: 8px;
 	margin-top: 24px;

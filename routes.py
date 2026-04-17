@@ -11,13 +11,11 @@ import os
 load_dotenv()
 
 MODE_MODELS = {
-    "short_version": "gemini-2.0-flash-lite",
-    "whats_changed": "gemini-2.5-flash-lite",
-    "big_picture": "gemini-2.5-flash",
-    "needs_attention": "gemini-2.5-flash"
+    "full_briefing": "gemini-2.5-flash-lite",
+    "quick_summary": "gemini-2.5-flash"
 }
 
-def get_gemini_response(contents, system_instruction, mode="whats_changed"):
+def get_gemini_response(contents, system_instruction, mode="full_briefing"):
     api_key = os.getenv('GEMINI_API_KEY')
     model = MODE_MODELS.get(mode, "gemini-2.5-flash-lite")
     try:
@@ -86,7 +84,7 @@ def register_routes(app):
             items = fetch_feed(url, days=timeframe)
             if items:
                 combined = "\n\n".join(items)
-                output = markdown.markdown(get_gemini_response(combined, PROMPTS["whats_changed"], "whats_changed"))
+                output = markdown.markdown(get_gemini_response(combined, PROMPTS["full_briefing"], "full_briefing"))
             else:
                 output = "No releases found for that repo in the selected timeframe."
         return render_template('report.html', output=output)
@@ -95,7 +93,7 @@ def register_routes(app):
     @login_required
     def report():
         timeframe = int(request.form.get("timeframe", 7))
-        mode = request.form.get("mode", "whats_changed")
+        mode = request.form.get("mode", "full_briefing")
         sources = UserSource.query.filter_by(user_id=current_user.id).all()
         all_content = []
 
