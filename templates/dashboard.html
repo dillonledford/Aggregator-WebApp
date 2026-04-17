@@ -10,12 +10,12 @@
 {% if current_user.is_authenticated %}
     <!-- LOGGED IN USER VIEW -->
 	
-	<h1 style="font-size: 2.8em; font-weight:bold; text-align: center; margin-bottom: 0px;">Distillerat</h1>
+	<h1 class="page-title">Distillerat</h1>
     <h3 style="font-weight:bold; text-align: center;">Monitor changes across your projects, tools, and workflows.</h3>
 	
-    <h1 style="font-weight:bold; text-align: center; padding-top: 2%;">{{ current_user.username }}</h1>
+	<h1 class="username-display">{{ current_user.username }}</h1>
 
-	<h2 style="font-weight:bold; text-align: center;">GitHub Source</h2>
+	<h2 class="section-header">GitHub Source</h2>
 	
     <form action="/add_source" method="POST" style="font-weight:bold; text-align: center;">
         <input type="hidden" name="source_type" value="github">
@@ -28,7 +28,7 @@
 	
 	<h2 style="font-weight:bold; text-align: center;">Google Drive Source</h2>
 	
-    <form action="/add_source" method="POST" style="font-weight:bold; text-align: center;">
+	<form action="/add_source" method="POST" class="centered-form">
         <input type="hidden" name="source_type" value="google_drive">
         <input name="identifier" placeholder="Google Drive folder ID" size="30">
         <input name="label" placeholder="Label (optional)" size="20">
@@ -69,21 +69,19 @@
         </select>
         <button type="submit">Generate Report</button>
     </form>
-	<br>
-		<img src="/static/Linked_igithub.png" alt="GitHub Connected" style="display: block; margin: auto;">
+	<img src="/static/Linked_igithub.png" class="icon-centered">
 	
 	{% if google_connected %}
-		<img src="/static/Linked_igoogle.png" alt="Google Drive Connected">
+		<img src="/static/Linked_igoogle.png" alt="Google Drive Connected" class="icon-centered">
 	{% else %}
-		<a href="/login/google/google"><img src="/static/igoogle.png" alt="Connect Google Drive"  style="display: block; margin: auto;"></a>
+		<a href="/login/google/google"><img src="/static/igoogle.png" class="icon-centered">
 	{% endif %}
-	<br>
 	<a class="logout-link" href="/logout">Logout</a>
 
 {% else %}
     <!-- VISITOR VIEW -->
-    <h1 style="font-size: 2.8em; font-weight:bold; text-align: center;">Distillerat</h1>
-    <h3 style="font-weight:bold; text-align: center;">Monitor changes across your projects, tools, and workflows.</h3>
+	<h1 class="page-title">Distillerat</h1>
+	<h3 class="page-subtitle">Monitor changes across your projects, tools, and workflows.</h3>
 	
     <form action="/visitor_report" method="POST" style="font-weight:bold; text-align: center;">
         <input name="repo" placeholder="e.g. microsoft/vscode" size="30">
@@ -103,9 +101,9 @@
 		<li>Keep connected repos and folders</li>
         <li>Custom source labels</li>
         <li>Save and revisit reports</li>
-		<!-- GitHub login button image goes here -->
-		<a href="/login/github"><img src="/static/igithub.png" alt="Sign in with GitHub" style="max-width: 22%;"></a>
     </ul>
+	<!-- GitHub login button image goes here -->
+	<a href="/login/github"><img src="/static/igithub.png" alt="Sign in with GitHub" style="max-width: 22%;"></a>
 </div>
 
 {% endif %}
