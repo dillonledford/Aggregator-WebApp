@@ -15,6 +15,33 @@ def fetch_feed(url, days=1):
             items.append(f"Title: {entry.title}\nSummary: {entry.get('summary', '')}")
     return items
 
+def fetch_github_repo(repo, days=7):
+    cutoff = datetime.now(timezone.utc) - timedelta(days=days)
+    items = []
+    
+    # Releases via RSS
+    feed = feedparser.parse(f"https://github.com/{repo}/releases.atom")
+    for entry in feed.entries:
+        parsed = getattr(entry, 'published_parsed', None) or getattr(entry, 'updated_parsed', None)
+        if not parsed:
+            continue
+        published = datetime(*parsed[:6], tzinfo=timezone.utc)
+        if published >= cutoff:
+            items.append(f"Release: {entry.title}\n{entry.get('summary', '')}")
+    
+    # Commits via GitHub API
+    commits_resp = requests.get(
+        f"https://api.github.com/repos/{repo}/commits",
+        params={"since": cutoff.isoformat(), "per_page": 20}
+    )
+    if commits_resp.status_code == 200:
+        for commit in commits_resp.json():
+            message = commit['commit']['message'].split('\n')[0]
+            date = commit['commit']['author']['date']
+            items.append(f"Commit: {message} ({date})")
+    
+    return items
+
 def fetch_drive_folder(folder_id, token, days=7):
     headers = {"Authorization": f"Bearer {token}"}
     

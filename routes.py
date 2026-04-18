@@ -4,7 +4,7 @@ from google import genai
 from dotenv import load_dotenv
 from system_prompts import PROMPTS
 from models import db, User, UserSource, Report
-from fetchers import fetch_feed, fetch_drive_folder
+from fetchers import fetch_feed, fetch_github_repo, fetch_drive_folder
 import markdown
 import os
 
@@ -99,11 +99,12 @@ def register_routes(app):
         sources = UserSource.query.filter_by(user_id=current_user.id).all()
         all_content = []
         for source in sources:
+            
             if source.source_type == 'github':
-                url = f"https://github.com/{source.identifier}/releases.atom"
-                items = fetch_feed(url, days=timeframe)
+                items = fetch_github_repo(source.identifier, days=timeframe)
                 if items:
                     all_content.append(f"## GitHub: {source.identifier}\n" + "\n\n".join(items))
+                    
             elif source.source_type == 'google_drive':
                 from flask_dance.contrib.google import google
                 token = google.token.get("access_token") if google.token else None

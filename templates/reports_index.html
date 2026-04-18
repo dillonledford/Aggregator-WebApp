@@ -7,10 +7,14 @@
 </head>
 <body>
 
-    <div class="profile-bar">
-        <img src="{{ current_user.avatar_url }}" alt="avatar">
-        <span>{{ current_user.username }}</span>
-    </div>
+	<div class="profile-bar" onclick="this.classList.toggle('open')">
+		<img src="{{ current_user.avatar_url }}" alt="avatar">
+		<span>{{ current_user.username }} ▾</span>
+		<div class="profile-dropdown">
+			<a href="/reports">Saved Reports</a>
+			<a href="/logout">Logout</a>
+		</div>
+	</div>
 
     <img src="/static/distill_logo2.png" class="logo-centered">
     <h1 class="page-title">distillerat<span class="cursor">_</span></h1>

@@ -10,9 +10,13 @@
 	{% if current_user.is_authenticated %}
 	<!-- USER (Logged In) ----------------------------------------->
 		
-		<div class="profile-bar">
+		<div class="profile-bar" onclick="this.classList.toggle('open')">
 			<img src="{{ current_user.avatar_url }}" alt="avatar">
-			<span>{{ current_user.username }}</span>
+			<span>{{ current_user.username }} ▾</span>
+			<div class="profile-dropdown">
+				<a href="/reports">Saved Reports</a>
+				<a href="/logout">Logout</a>
+			</div>
 		</div>
 
 		<img src="/static/distill_logo2.png" class="logo-centered">
@@ -32,7 +36,11 @@
 			</p>
 		{% endif %}
 		
-		<a href="/" class="back-button">← Dashboard</a>
+		{% if saved_report %}
+			<a href="/reports" class="back-button">← Back to Reports</a>
+		{% else %}
+			<a href="/" class="back-button">← Dashboard</a>
+		{% endif %}
 
 	{% else %}
 	<!-- VISITOR (Logged Out) ------------------------------------->
