@@ -23,46 +23,68 @@
 	<h1 class="page-title">distillerat<span class="cursor">_</span></h1>
     <h3 class="page-subtitle">Monitor changes across projects, tools, and workflows.</h3>
 
-	<h2 class="section-header">GitHub Source</h2>
-	
-    <form action="/add_source" method="POST" style="font-weight:bold; text-align: center;">
-        <input type="hidden" name="source_type" value="github">
-        <input name="identifier" placeholder="e.g. microsoft/vscode" size="30">
-        <input name="label" placeholder="Label (optional)" size="20">
-        <button type="submit">Add GitHub Repo</button>
-    </form>
-	
-	{% if google_connected %}
-	
-	<h2 style="font-weight:bold; text-align: center;">Google Drive Source</h2>
-	
-	<form action="/add_source" method="POST" class="centered-form">
-        <input type="hidden" name="source_type" value="google_drive">
-        <input name="identifier" placeholder="Google Drive folder ID" size="30">
-        <input name="label" placeholder="Label (optional)" size="20">
-        <button type="submit">Add Drive Folder</button>
-    </form>
-	{% endif %}
-	
+<!-- New Source Bar --------->
+
+	    <!-- <h2 class="section-header">Add Source</h2> -->
+
+	<form action="/add_source" method="POST" class="source-form" id="source-form">
+		<div class="source-form-top">
+			<input name="identifier" id="source-identifier" placeholder="GitHub repo or Google Drive folder ID" size="30">
+		</div>
+		<div class="source-form-bottom">
+			<select name="source_type" id="source-type-select" onchange="updatePlaceholders()">
+				<option value="">Select Source</option>
+				<option value="github">GitHub</option>
+				{% if google_connected %}
+				<option value="google_drive">Google Drive</option>
+				{% endif %}
+			</select>
+			<input name="label" placeholder="Label (optional)">
+			<button type="submit">Add</button>
+		</div>
+	</form>
+
+	<script>
+	function updatePlaceholders() {
+		const select = document.getElementById('source-type-select');
+		const identifier = document.getElementById('source-identifier');
+		
+		if (select.value === 'github') {
+			identifier.placeholder = 'GitHub repo e.g. microsoft/vscode';
+		} else if (select.value === 'google_drive') {
+			identifier.placeholder = 'Google Drive folder ID e.g. p4xS-1li1lt-er6bFMvKvz2Bgq5i';
+		} else {
+			identifier.placeholder = 'Select a source type';
+		}
+	}
+	</script>
+		
+<!-- New Source Bar - END -->
+
 	<div class="sources-container">
 	{% for source in sources %}
-		<div class="source-chip">
-
-			{% if source.source_type == 'github' %}
-				<span class="chip-type-github">GitHub</span>
-			{% elif source.source_type == 'google_drive' %}
-				<span class="chip-type-google">Google Drive</span>
-			{% else %}
-				<span class="chip-type">{{ source.source_type }}</span>
-			{% endif %}
-
-			<span>{{ source.label }}</span>
-			<a href="/remove_source/{{ source.id }}">×</a>
+		<div class="source-chip" onclick="this.classList.toggle('open')">
+			<div class="chip-main">
+				{% if source.source_type == 'github' %}
+					<span class="chip-type-github">GitHub</span>
+				{% elif source.source_type == 'google_drive' %}
+					<span class="chip-type-google">Google</span>
+				{% else %}
+					<span class="chip-type">{{ source.source_type }}</span>
+				{% endif %}
+				<span class="chip-label">{{ source.label }}</span>
+				<a href="/remove_source/{{ source.id }}" onclick="event.stopPropagation()">×</a>
+			</div>
+			<div class="chip-detail">
+				<strong>Label:</strong> {{ source.label }}<br>
+				<strong>ID:</strong> {{ source.identifier }}
+			</div>
 		</div>
 	{% endfor %}
 	</div>
 
-    <h2 style="font-weight:bold; text-align: center;">Generate Report</h2>
+    <!-- <h2 style="font-weight:bold; text-align: center;">Generate Report</h2> -->
+	
     <form action="/report" method="POST"  style="font-weight:bold; text-align: center;">
         <select name="timeframe">
             <option value="1">Today</option>
@@ -75,17 +97,25 @@
         </select>
         <button type="submit">Generate Report</button>
     </form>
-	<img src="/static/Linked_igithub.png" class="icon-centered">
 	
-	{% if google_connected %}
-		<img src="/static/Linked_igoogle.png" alt="Google Drive Connected" class="icon-centered">
-	{% else %}
-		<a href="/login/google/google"><img src="/static/igoogle.png" class="icon-centered"></a>
-	{% endif %}
+	<div class="connection-icons">
+		<img src="/static/Linked_igithub_dark.png" class="icon-centered">
+		{% if google_connected %}
+		
+			<img src="/static/Linked_igoogle_dark.png" alt="Google Drive Connected">
+			
+		{% else %}
+			<a href="/login/google/google"><img src="/static/igoogle_dark.png"></a>
+		{% endif %}
+	</div>
 
 {% else %}
     <!-- VISITOR VIEW -->
+
+
 	<img src="/static/distill_logo2.png" class="logo-centered">
+	
+	
 	<h1 class="page-title">distillerat<span class="cursor">_</span></h1>
 	<h3 class="page-subtitle">Monitor changes across projects, tools, and workflows.</h3>
 	
@@ -107,10 +137,26 @@
         <li>Save and revisit or download reports</li>
     </ul>
 	<!-- GitHub login button image goes here -->
-	<a href="/login/github"><img src="/static/igithub.png" alt="Sign in with GitHub" style="max-width: 25%; margin-left: 4%;"></a>
+	<a href="/login/github"><img src="/static/igithub.png" alt="Sign in with GitHub" style="max-width: 28%; margin-left: 4.4%;"></a>
 </div>
-
 {% endif %}
+
+<script>
+document.addEventListener('click', function(e) {
+    // Close profile dropdown if click is outside
+    const profileBar = document.querySelector('.profile-bar');
+    if (profileBar && !profileBar.contains(e.target)) {
+        profileBar.classList.remove('open');
+    }
+    
+    // Close all chip dropdowns if click is outside
+    document.querySelectorAll('.source-chip.open').forEach(function(chip) {
+        if (!chip.contains(e.target)) {
+            chip.classList.remove('open');
+        }
+    });
+});
+</script>
 
 </body>
 </html>
