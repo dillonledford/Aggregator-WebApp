@@ -120,11 +120,11 @@ strong {
 
 .back-button {
   position: fixed;
-  bottom: 24px;
+  bottom: 48px;  /* increased from 24px to clear the footer */
   right: 24px;
-  background-color: #2e5f8a;
+  background-color: #2b6d96;
   color: #f5f5f5;
-  padding: 6px 10px;
+  padding: 4px 7px;
   border-radius: 4px;
   text-decoration: none;
   font-weight: bold;
@@ -133,7 +133,7 @@ strong {
 }
 
 .back-button:hover {
-  background-color: #3a7ab5;
+  background-color: #3c89bd;
   color: #f5f5f5;
 }
 
@@ -186,13 +186,6 @@ strong {
   width: 60%;
   box-sizing: border-box;
 }
-
-
-
-
-
-
-
 
 .source-chip-index {
     position: relative;
@@ -309,7 +302,7 @@ strong {
 
 /*former github-index*/
 .chip-type-fullbrief-index {
-  color: #0FBF3E;
+  color: #87cefa;
   font-size: 14px;
   font-weight: bold;
   padding-right:25px;
@@ -317,7 +310,7 @@ strong {
 
 /*former google-index*/
 .chip-type-quicksum-index {
-  color: #4285F4;
+  color: #87cefa;
   font-size: 14px;
   font-weight: bold;
 }
@@ -368,11 +361,18 @@ strong {
 	margin-top: 0px;
 }
 
-
 .page-subtitle {
     font-weight: bold;
     text-align: center;
 	color: #87cefa;
+}
+
+.page-subtitle-reports {
+    font-weight: bold;
+    text-align: center;
+    color: #87cefa;
+    margin-top: 4px;
+    margin-bottom: 20px;
 }
 
 .username-display {
@@ -556,4 +556,31 @@ strong {
 /*blank top visitor space for no logo jump*/
 .blank-profile-space {
 	padding-top: 5.1%;
+}
+
+.footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 0 24px;
+    font-size: 12px;
+    color: #666;
+    background-color: #181a1b;
+    border-top: 1px solid #2a2d2e;
+}
+
+.footer a {
+    color: #666;
+    font-size: 12px;
+    font-weight: normal;
+    margin-left: 16px;
+}
+
+.footer a:hover {
+    color: #f5f5f5;
 }

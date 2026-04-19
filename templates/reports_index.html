@@ -11,6 +11,7 @@
 		<img src="{{ current_user.avatar_url }}" alt="avatar">
 		<span>{{ current_user.username }} ▾</span>
 		<div class="profile-dropdown">
+			<a href="/">Dashboard</a>
 			<a href="/reports">Saved Reports</a>
 			<a href="/logout">Logout</a>
 		</div>
@@ -19,9 +20,9 @@
     <img src="/static/distill_logo2.png" class="logo-centered">
     <h1 class="page-title">distillerat<span class="cursor">_</span></h1>
 	
-	<h3 class="page-subtitle">Saved Reports</h3>
-	{% if reports %}
-		<p style="text-align:center; color:#888; margin-top:0;">{{ reports|length }} report{{ 's' if reports|length != 1 else '' }} saved</p>
+	{% if reports %} 
+		<!-- number of reports save -->
+		<h3 class="page-subtitle-reports">{{ reports|length }} report{{ 's' if reports|length != 1 else '' }} saved</h3>
 	{% endif %}
 
     {% if reports %}
@@ -75,5 +76,11 @@ document.addEventListener('click', function(e) {
     });
 });
 </script>
+
+<div class="footer">
+    <a href="/privacy">Privacy Policy</a>
+    <a href="/terms">Terms of Service</a>
+</div>
+
 </body>
 </html>

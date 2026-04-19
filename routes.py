@@ -54,8 +54,8 @@ def register_routes(app):
     def add_source():
         identifier = request.form.get("identifier")
         source_type = request.form.get("source_type")
-        label = request.form.get("label", identifier)
-        if identifier and len(identifier) < 200:
+        label = request.form.get("label", "").strip()
+        if identifier and len(identifier) < 200 and label:
             source = UserSource(
                 user_id=current_user.id,
                 source_type=source_type,
@@ -166,3 +166,11 @@ def register_routes(app):
     def logout():
         logout_user()
         return redirect(url_for('index'))
+
+    @app.route('/privacy')
+    def privacy():
+        return render_template('privacy.html')
+
+    @app.route('/terms')
+    def terms():
+        return render_template('terms.html')
