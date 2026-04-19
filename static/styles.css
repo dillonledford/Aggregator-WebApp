@@ -152,7 +152,6 @@ strong {
   gap: 16px;
   justify-content: center;
   margin-bottom: 12px;
-  
 }
 
 .sources-container-reports a {
@@ -228,7 +227,8 @@ strong {
   border-radius: 4px;
   font-size: 14px;
   color: #fff;
-  width: 220px;
+  width: max-content;
+  max-width: 400px;
   word-break: break-all;
   z-index: 100;
   box-shadow: 0 4px 12px rgba(0,0,0,0.4);
@@ -254,10 +254,24 @@ strong {
   color: #0FBF3E;
   font-size: 14px;
   font-weight: bold;
-  padding-right:25px;
 }
 
 .chip-type-google {
+  color: #4285F4;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+/*former github-index*/
+.chip-type-fullbrief-index {
+  color: #0FBF3E;
+  font-size: 14px;
+  font-weight: bold;
+  padding-right:25px;
+}
+
+/*former google-index*/
+.chip-type-quicksum-index {
   color: #4285F4;
   font-size: 14px;
   font-weight: bold;

@@ -18,7 +18,11 @@
 
     <img src="/static/distill_logo2.png" class="logo-centered">
     <h1 class="page-title">distillerat<span class="cursor">_</span></h1>
+	
 	<h3 class="page-subtitle">Saved Reports</h3>
+	{% if reports %}
+		<p style="text-align:center; color:#888; margin-top:0;">{{ reports|length }} report{{ 's' if reports|length != 1 else '' }} saved</p>
+	{% endif %}
 
     {% if reports %}
 	
@@ -27,13 +31,13 @@
 
 			<div class="source-chip-index">
 				<a href="/reports/{{ report.id }}" class="chip-row-link">
-					<span class="chip-type-{% if report.report_type == 'full_briefing' %}github{% else %}google{% endif %}">
+					<span class="chip-type-{% if report.report_type == 'full_briefing' %}fullbrief-index{% else %}quicksum-index{% endif %}">
 						{{ "Full Briefing" if report.report_type == "full_briefing" else "Quick Summary" }}
 					</span>
 					<span>
 						{{ (report.created_at - timedelta(days=report.time_range|int)).strftime('%m/%d/%y') }} 
 						- {{ report.created_at.strftime('%m/%d/%y') }} 
-						- {{ report.created_at.strftime('%I:%M %p') }}
+						— {{ report.created_at.strftime('%I:%M %p') }}
 					</span>
 				</a>
 				<form action="/reports/delete/{{ report.id }}" method="POST" style="display:inline;">
