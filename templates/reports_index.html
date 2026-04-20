@@ -35,7 +35,7 @@
 					<span class="chip-type-{% if report.report_type == 'full_briefing' %}fullbrief-index{% else %}quicksum-index{% endif %}">
 						{{ "Full Briefing" if report.report_type == "full_briefing" else "Quick Summary" }}
 					</span>
-					<span>
+					<span class="date-style-index">
 						{{ (report.created_at - timedelta(days=report.time_range|int)).strftime('%m/%d/%y') }} 
 						- {{ report.created_at.strftime('%m/%d/%y') }} 
 						— {{ report.created_at.strftime('%I:%M %p') }}
