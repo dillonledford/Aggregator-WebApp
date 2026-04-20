@@ -124,8 +124,10 @@ def register_routes(app):
             combined = "\n\n".join(all_content)
 
             raw = get_gemini_response(combined, PROMPTS[mode], mode)
+            if raw.startswith("Error generating report:"):
+                return render_template('error.html')
             output = markdown.markdown(raw)
-            source_labels = [s.label for s in sources]  # ← add this line
+            source_labels = [s.label for s in sources]
             report = Report(
                 user_id=current_user.id,
                 report_type=mode,
@@ -181,3 +183,10 @@ def register_routes(app):
     @app.route('/terms')
     def terms():
         return render_template('terms.html')
+
+## comment out before pushing to server
+
+    # @app.route('/error')
+    # def error():
+        # return render_template('error.html')
+        

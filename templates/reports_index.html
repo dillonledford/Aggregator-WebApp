@@ -35,11 +35,12 @@
 					<span class="chip-type-{% if report.report_type == 'full_briefing' %}fullbrief-index{% else %}quicksum-index{% endif %}">
 						{{ "Full Briefing" if report.report_type == "full_briefing" else "Quick Summary" }}
 					</span>
-					<span class="date-style-index">
-						{{ (report.created_at - timedelta(days=report.time_range|int)).strftime('%m/%d/%y') }} 
-						- {{ report.created_at.strftime('%m/%d/%y') }} 
-						— {{ report.created_at.strftime('%I:%M %p') }}
+										
+					<span class="local-time date-style-index" 
+						data-utc="{{ report.created_at.strftime('%Y-%m-%dT%H:%M:%S') }}Z"
+						data-days="{{ report.time_range }}">
 					</span>
+										
 				</a>
 				{% if report.sources_used %}
 				<div class="report-hover-detail">
@@ -61,27 +62,39 @@
 
     <a href="/" class="back-button">← Dashboard</a>
 
-<script>
-document.addEventListener('click', function(e) {
-    // Close profile dropdown if click is outside
-    const profileBar = document.querySelector('.profile-bar');
-    if (profileBar && !profileBar.contains(e.target)) {
-        profileBar.classList.remove('open');
-    }
-    
-    // Close all chip dropdowns if click is outside
-    document.querySelectorAll('.source-chip.open').forEach(function(chip) {
-        if (!chip.contains(e.target)) {
-            chip.classList.remove('open');
-        }
-    });
-});
-</script>
+	<script>
+	document.addEventListener('click', function(e) {
+		// Close profile dropdown if click is outside
+		const profileBar = document.querySelector('.profile-bar');
+		if (profileBar && !profileBar.contains(e.target)) {
+			profileBar.classList.remove('open');
+		}
+		
+		// Close all chip dropdowns if click is outside
+		document.querySelectorAll('.source-chip.open').forEach(function(chip) {
+			if (!chip.contains(e.target)) {
+				chip.classList.remove('open');
+			}
+		});
+	});
+	</script>
 
-<div class="footer">
-    <a href="/privacy">Privacy Policy</a>
-    <a href="/terms">Terms of Service</a>
-</div>
+	<div class="footer">
+		<a href="/privacy">Privacy Policy</a>
+		<a href="/terms">Terms of Service</a>
+		<a>Google Drive is a trademark of Google LLC.</a>
+	</div>
+
+	<script>
+	document.querySelectorAll('.local-time').forEach(function(el) {
+		const endDate = new Date(el.getAttribute('data-utc'));
+		const days = parseInt(el.getAttribute('data-days'));
+		const startDate = new Date(endDate - days * 24 * 60 * 60 * 1000);
+		const fmt = d => d.toLocaleDateString('en-US', {month:'2-digit', day:'2-digit', year:'2-digit'});
+		const timeFmt = d => d.toLocaleTimeString('en-US', {hour:'2-digit', minute:'2-digit'});
+		el.textContent = fmt(startDate) + ' - ' + fmt(endDate) + ' — ' + timeFmt(endDate);
+	});
+	</script>
 
 </body>
 </html>

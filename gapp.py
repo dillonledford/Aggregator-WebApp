@@ -9,6 +9,9 @@ from dotenv import load_dotenv
 from models import db, User
 from routes import register_routes
 from auth import github_bp, google_bp
+import threading
+import requests
+import time
 
 load_dotenv()
 
@@ -19,6 +22,23 @@ app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'
 app.config['SESSION_COOKIE_HTTPONLY'] = True
 app.config['SESSION_COOKIE_NAME'] = 'distillerat_session'
 app.config['SESSION_COOKIE_SECURE'] = os.getenv('FLASK_ENV') != 'development'
+
+## Keep Render Site Alive - No Spindown --- Script Start ---
+
+def keep_alive():
+    time.sleep(30)  # wait for server to start
+    while True:
+        try:
+            requests.get('https://distillerat.com/')
+        except:
+            pass
+        time.sleep(14 * 60)  # ping every 14 minutes - Render spiondown is 15 minutes
+
+if os.getenv('FLASK_ENV') != 'development':
+    thread = threading.Thread(target=keep_alive, daemon=True)
+    thread.start()
+
+## Keep Render Site Alive - No Spindown --- Script End ---
 
 db.init_app(app)
 login_manager = LoginManager(app)
