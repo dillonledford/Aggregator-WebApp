@@ -2,7 +2,7 @@
 
 body {
 	margin: 25px auto;
-	max-width: 700px;
+	max-width: 600px;
 	background-color: #181a1b;
 	font-family: 'Open Sans', sans-serif;
 	font-size: 16px;
@@ -183,7 +183,6 @@ strong {
   font-size: 14px;
   cursor: pointer;
   gap: 10px;
-  width: 60%;
   box-sizing: border-box;
 }
 
@@ -312,7 +311,7 @@ strong {
     border: 1px solid #333;
     border-radius: 4px;
     padding: 16px;
-	max-width: 580px;
+	max-width: 455px;
 	margin-top: 2%;
 	margin-left: auto;
 	margin-right: auto;
@@ -428,7 +427,6 @@ strong {
 
 .profile-bar span {
     color: #f5f5f5;
-    font-weight: ;
     font-size: 16px;
 }
 
@@ -476,18 +474,37 @@ strong {
     align-items: center;
     gap: 6px;
     margin: 16px auto;
-    width: 600px;
+    width: 500px;
 }
 
 .source-form-top {
     width: 100%;
 }
 
+/* affects Browse button and Top Source Box--start  */
+.browse-drive {
+    height: 30px;
+    padding: 0 10px;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+.drive-section {
+    display: none;
+    height: 30px;
+    box-sizing: border-box;
+}
+
 .source-form-top input {
     width: 100%;
     box-sizing: border-box;
     margin: 0;
+    height: 30px;
 }
+
+/*affects Browse button and Top Source Box---end^ */
+
+
 
 .source-form-bottom {
     display: flex;
@@ -516,6 +533,7 @@ strong {
     align-items: center;
     gap: 8px;
     margin: 10px auto;
+	/*margin-top: 6%;*/
 }
 
 .connection-icons a {
@@ -544,7 +562,7 @@ strong {
 
 /*blank top visitor space for no logo jump*/
 .blank-profile-space {
-	padding-top: 5.1%;
+	padding-top: 6%;
 }
 
 .footer {
@@ -574,7 +592,14 @@ strong {
     color: #f5f5f5;
 }
 
-/* Mobile Response*/
+.github-visitor {
+	max-width: 36%;
+	margin-left: 6%;
+}
+
+
+
+/* ----- Mobile Response ----- */
 
 @media (max-width: 700px) {
     body {
@@ -611,4 +636,21 @@ strong {
     .page-title {
         font-size: 2em;
     }
+	
+	
+	.github-visitor {
+		max-width: 36%;
+		margin-left: 6%;
+	}
+	
+	.page-subtitle {
+		font-size: 0.85em;
+		font-weight: bold;
+		text-align: center;
+		margin-bottom: 0px;
+		margin-top: 0px;
+		word-wrap: break-word;
+	}
+	
 }
+

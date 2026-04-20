@@ -12,8 +12,8 @@ import os
 load_dotenv()
 
 MODE_MODELS = {
-    "full_briefing": "gemini-2.5-flash-lite",
-    "quick_summary": "gemini-2.5-flash"
+    "full_briefing": "gemini-2.5-flash",
+    "quick_summary": "gemini-2.5-flash-lite"
 }
 
 def get_gemini_response(contents, system_instruction, mode="full_briefing"):
@@ -38,7 +38,11 @@ def register_routes(app):
             from flask_dance.contrib.google import google
             sources = UserSource.query.filter_by(user_id=current_user.id).all()
             google_connected = google.token is not None
-            return render_template('dashboard.html', sources=sources, google_connected=google_connected)
+            google_token = google.token.get("access_token") if google.token else None
+            return render_template('dashboard.html', sources=sources, 
+                                 google_connected=google_connected,
+                                 google_token=google_token,
+                                 google_api_key=os.getenv('GOOGLE_API_KEY'))
         return render_template('dashboard.html')
 
     @app.route('/dashboard')
@@ -47,12 +51,16 @@ def register_routes(app):
         sources = UserSource.query.filter_by(user_id=current_user.id).all()
         from flask_dance.contrib.google import google
         google_connected = google.token is not None
-        return render_template('dashboard.html', sources=sources, google_connected=google_connected)
+        google_token = google.token.get("access_token") if google.token else None
+        return render_template('dashboard.html', sources=sources,
+                             google_connected=google_connected,
+                             google_token=google_token,
+                             google_api_key=os.getenv('GOOGLE_API_KEY'))
 
     @app.route('/add_source', methods=["POST"])
     @login_required
     def add_source():
-        identifier = request.form.get("identifier")
+        identifier = request.form.get("identifier") or request.form.get("drive_identifier")
         source_type = request.form.get("source_type")
         label = request.form.get("label", "").strip()
         if identifier and len(identifier) < 200 and label:
@@ -141,7 +149,6 @@ def register_routes(app):
             user_id=current_user.id
         ).order_by(Report.created_at.desc()).all()
         return render_template('reports_index.html', reports=reports, timedelta=timedelta)
-
 
     @app.route('/reports/<int:report_id>')
     @login_required

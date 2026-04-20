@@ -45,11 +45,9 @@ def fetch_github_repo(repo, days=7):
 def fetch_drive_folder(folder_id, token, days=7):
     headers = {"Authorization": f"Bearer {token}"}
     
-    # Calculate time cutoff
     cutoff = datetime.now(timezone.utc) - timedelta(days=days)
     cutoff_str = cutoff.isoformat()
     
-    # Find modified files in folder
     query = f"'{folder_id}' in parents and modifiedTime > '{cutoff_str}'"
     drive_resp = requests.get(
         "https://www.googleapis.com/drive/v3/files",
@@ -67,22 +65,21 @@ def fetch_drive_folder(folder_id, token, days=7):
     for file in files:
         summary += f"File: {file['name']} (modified: {file['modifiedTime']})\n"
         
-        # If it's a Google Doc, read the content
         if file['mimeType'] == 'application/vnd.google-apps.document':
+
             doc_resp = requests.get(
                 f"https://docs.googleapis.com/v1/documents/{file['id']}",
                 headers=headers
             )
+
             doc_data = doc_resp.json()
-            
-            # Extract text from doc
             text = ""
             for element in doc_data.get('body', {}).get('content', []):
                 for para_element in element.get('paragraph', {}).get('elements', []):
                     text += para_element.get('textRun', {}).get('content', '')
-            
-            summary += f"Content:\n{text[:2000]}\n\n"  # limit to 2000 chars per doc
+            summary += f"Content:\n{text[:2000]}\n\n"
         else:
             summary += f"Type: {file['mimeType']}\n\n"
     
     return summary
+    
