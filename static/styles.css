@@ -637,13 +637,14 @@ strong {
         font-size: 2em;
     }
 	
+	
 	.github-visitor {
 		max-width: 36%;
 		margin-left: 6%;
 	}
 	
 	.page-subtitle {
-		font-size: 1em;
+		font-size: 100vw;
 		font-weight: bold;
 		text-align: center;
 		margin-bottom: 0px;
@@ -651,10 +652,6 @@ strong {
 		word-wrap: break-word;
 	}
 	
-	.visitor-report-bar {
-		font-weight:bold;
-		text-align: center;
-		width: 700px;
-	}
-	
-	}
+}
+
+/* 1vw = 1% view width */
