@@ -593,10 +593,9 @@ strong {
 }
 
 .github-visitor {
-	max-width: 36%;
+	width: 36%;
 	margin-left: 6%;
 }
-
 
 
 /* ----- Mobile Response ----- */
@@ -637,27 +636,13 @@ strong {
         font-size: 2em;
     }
 	
+	.page-subtitle {
+		font-size: 0.85em;
+	}
 	
 	.github-visitor {
 		max-width: 36%;
 		margin-left: 6%;
-	}
-	
-	.page-subtitle {
-		font-size: 1em;
-		font-weight: bold;
-		text-align: center;
-		margin-bottom: 0px;
-		margin-top: 0px;
-		word-wrap: break-word;
-	}
-	
-	
-	
-	.visitor-report-bar {
-		font-weight:bold;
-		text-align: center;
-		width: 700px;
 	}
 	
 }
