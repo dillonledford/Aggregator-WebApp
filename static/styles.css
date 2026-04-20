@@ -59,6 +59,7 @@ h3 {
 	border-radius: 6px;
 	margin-top: 20px;
 	line-height: 1.7;
+	padding-right: 20px;
 }
 
 .report-content h1 {
@@ -71,10 +72,9 @@ h3 {
 
 .report-content h2 {
 	color: #87cefa;
-	padding-bottom: 0px;
-	margin-bottom: 0px;
 	text-align: center;
 	font-size: x-large;
+	padding-top: 12px;
 }
 
 .report-content h3 {
@@ -663,6 +663,10 @@ strong {
 	/*blank top visitor space for no logo jump*/
 	.blank-profile-space {
 		padding-top: 7.2%;
+	}
+	
+	.report-content {
+		padding-right: 20px;
 	}
 
 }
