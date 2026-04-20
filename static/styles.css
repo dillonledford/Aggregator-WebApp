@@ -63,6 +63,13 @@ h3 {
 	padding-left: 16px;
 }
 
+/* Listed Item Marker Styling */
+
+li::marker {
+	color: #87cefa;
+}
+
+
 .report-content h1 {
 	color: #87cefa;
 	border-bottom: 1px solid #333;
@@ -311,11 +318,14 @@ strong {
     background-color: #1e2122;
     border: 1px solid #333;
     border-radius: 4px;
-    padding: 16px;
-	max-width: 455px;
+    padding-left: 16px;
+	padding-right: 16px;
+	padding-bottom: 16px;
+	max-width: 700px;
 	margin-top: 2%;
 	margin-left: auto;
 	margin-right: auto;
+	line-height: 1.7;
 }
 
 .cta-box h3 {
@@ -594,8 +604,11 @@ strong {
 }
 
 .github-visitor {
-	max-width: 36%;
-	margin-left: 6%;
+    max-width: 28%;
+    margin-bottom: 15%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 
@@ -609,7 +622,47 @@ strong {
 	padding-top: 16px;
 }
 
-/* ----- Mobile Response ----- */
+/* VISITOR UI */
+
+.visitor-form {
+    display: flex;
+    justify-content: center;
+}
+
+.visitor-form input {
+    flex: 3;
+}
+
+.visitor-form select {
+    flex: 1;
+}
+
+.visitor-form button {
+    flex: 1;
+}
+
+/* ---- GitHub Tagline and Login button ---- */
+
+.github-visitor {
+    max-width: 28%;
+    margin-bottom: 5%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+	padding-top: 10px;
+	margin-bottom: 12%;
+}
+
+.github-tagline {
+    color: #87cefa;
+    font-size: 16px;
+	text-align: center;
+	margin-top: 4px;
+	margin-bottom: 4px;
+}
+
+
+/* ------------ Mobile Response ------------ */
 
 @media (max-width: 700px) {
     body {
@@ -651,12 +704,7 @@ strong {
 	.page-subtitle {
 		font-size: 0.9em;
 	}
-	
-	.github-visitor {
-		max-width: 40%;
-		margin-left: 6%;
-	}
-	
+
 	.date-style-index {
 		font-size: 13px;
 	}

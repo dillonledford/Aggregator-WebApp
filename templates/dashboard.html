@@ -23,7 +23,7 @@
 	
 	<img src="/static/distill_logo2.png" class="logo-centered">
 	<h1 class="page-title">distillerat<span class="cursor">_</span></h1>
-    <h3 class="page-subtitle">Aggregate GitHub and Google Drive activity into AI-powered project briefings.</h3>
+    <h3 class="page-subtitle">Monitor project changes across GitHub & Google Drive.</h3>
 
 	<!-- New Source Bar --------->
 
@@ -102,7 +102,7 @@
 	</div>
 
 {% else %}
-    <!-- VISITOR VIEW -->
+    <!-- VISITOR VIEW -------------------------------------------->
 
 <!-- add space so logo doesn't move after logging in -->
 	<div class="blank-profile-space"></div>
@@ -110,28 +110,31 @@
 	<img src="/static/distill_logo2.png" class="logo-centered">
 	
 	<h1 class="page-title">distillerat<span class="cursor">_</span></h1>
-	<h3 class="page-subtitle">Monitor changes across projects, tools, and workflows.</h3>
+	<h3 class="page-subtitle">Monitor project changes across GitHub & Google Drive.</h3>
+
+	<form action="/visitor_report" method="POST" class="visitor-form">
+		<input name="repo" placeholder="GitHub repo e.g. microsoft/vscode">
+		<select name="timeframe">
+			<option value="1">Today</option>
+			<option value="7" selected>This Week</option>
+			<option value="30">This Month</option>
+		</select>
+		<button type="submit">Generate Report</button>
+	</form>
 	
-    <form action="/visitor_report" method="POST" style="font-weight:bold; text-align: center;">
-        <input name="repo" placeholder="e.g. microsoft/vscode" size="30">
-        <select name="timeframe">
-            <option value="1">Today</option>
-            <option value="7" selected>This Week</option>
-            <option value="30">This Month</option>
-        </select>
-        <button type="submit">Generate Report</button>
-    </form>
+	<p class="github-tagline">Sign in with GitHub for full access — it's free.</p>
 
 	<div class="cta-box">
-	<h3 style="font-weight:bold;">Sign in for full access</h3>
-    <ul>
-        <li>Link GitHub repos and Google Drive folders</li>
-		<li>Keep added sources with custom labels</li>
-        <li>Save and revisit or download reports</li>
-    </ul>
-	<!-- GitHub login button image goes here -->
+		<p style="line-height: 2; padding-left: 14px; padding-right: 14px;"><span style="color:#87cefa; font-weight: bold; font-size:18px;">distillerat_</span> scans GitHub repositories and Google Drive folders and uses AI to generate plain-English project briefings — so you always know what changed, without reading through everything yourself.</p>
+		<ul>
+			<li>Releases, commits, and document updates in one place</li>
+			<li>Full Briefing for detailed summaries, Quick Summary for key highlights</li>
+			<li>Custom source labels and saved reports with date ranges</li>
+		</ul>
+	</div>
+	
 	<a href="/login/github"><img src="/static/igithub.png" alt="Sign in with GitHub" class="github-visitor"></a>
-</div>
+	
 {% endif %}
 
 <script>
