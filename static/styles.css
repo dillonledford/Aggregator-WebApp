@@ -593,6 +593,7 @@ strong {
 }
 
 .github-visitor {
+	max-width: 36%;
 	margin-left: 6%;
 }
 
