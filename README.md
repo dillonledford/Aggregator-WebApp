@@ -1,5 +1,4 @@
 # distillerat_
-
 <img width="1720" height="1210" alt="Image" src="https://github.com/user-attachments/assets/77c28e87-ee67-4999-8720-6ad4abe0601a" />
 
 > Aggregate GitHub and Google Drive activity into AI-powered project briefings.
@@ -81,9 +80,10 @@ Google Drive integration requires OAuth verification. The app is currently in Te
 >
 > The relevant scopes are `drive.readonly` and `documents.readonly`
 >
-> To proceed past the warning: click **Advanced** → **Go to [App Name] (unsafe)**
+> To proceed past the warning: click **Advanced** → **Go to distillerat_ (unsafe)**
 >
 > Contact [admin@distillerat.com](mailto:admin@distillerat.com) with any questions.
+
 ---
 
 ## License
