@@ -77,8 +77,6 @@ Google Drive integration requires OAuth verification.
 The app is currently in Testing — contact the developer to be added as a test user for full Drive functionality. 
 GitHub integration works for all users without restrictions.
 
----
-
 > [!NOTE]
 > **Google Sign-In may show an "unverified app" warning.** This is expected — the app requests read-only access to Google Drive and Docs, which triggers Google's verification requirement regardless of whether access is read-only or read/write.
 >
