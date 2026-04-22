@@ -38,7 +38,7 @@
 				{% else %}This Month{% endif %}
 				&mdash; -->
 				
-				{{ saved_report.created_at.strftime('%b %d, %Y — %I:%M %p') }}
+				<span class="local-time-stamp" data-utc="{{ saved_report.created_at.strftime('%Y-%m-%dT%H:%M:%S') }}Z"></span>
 			</p>
 		{% endif %}
 		
@@ -67,5 +67,14 @@
 		<a href="/terms">Terms of Service</a>
 		<a>Google Drive is a trademark of Google LLC.</a>
 	</div>
+
+	<script>
+	document.querySelectorAll('.local-time-stamp').forEach(function(el) {
+		const date = new Date(el.getAttribute('data-utc'));
+		el.textContent = date.toLocaleDateString('en-US', {month:'short', day:'2-digit', year:'numeric'}) 
+			+ ' — ' + date.toLocaleTimeString('en-US', {hour:'2-digit', minute:'2-digit'});
+	});
+	</script>
+	
 </body>
 </html>
