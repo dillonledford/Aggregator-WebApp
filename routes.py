@@ -1,4 +1,4 @@
-from flask import render_template, request, redirect, url_for
+from flask import render_template, request, redirect, url_for, jsonify, Response
 from flask_login import login_required, logout_user, current_user
 from google import genai
 from dotenv import load_dotenv
@@ -8,6 +8,7 @@ from fetchers import fetch_feed, fetch_github_repo, fetch_drive_folder
 from datetime import datetime, timedelta
 import markdown
 import os
+from elevenlabs.client import ElevenLabs
 
 load_dotenv()
 
@@ -98,8 +99,6 @@ def register_routes(app):
                 output = "No releases found for that repo in the selected timeframe."
         return render_template('report.html', output=output)
 
-## UPDATED: Reports database
-
     @app.route('/report', methods=["POST"])
     @login_required
     def report():
@@ -138,11 +137,12 @@ def register_routes(app):
 
             db.session.add(report)
             db.session.commit()
+            
+            # Pass the newly created report to the template
+            return render_template('report.html', output=output, saved_report=report)
         else:
             output = "No content found for the selected timeframe."
-        return render_template('report.html', output=output)
-
-## UPDATED: Reports Saving 4-19 5:30 AM
+            return render_template('report.html', output=output)
 
     @app.route('/reports')
     @login_required
@@ -160,6 +160,41 @@ def register_routes(app):
             return redirect(url_for('dashboard'))
         output = markdown.markdown(report.content)
         return render_template('report.html', output=output, saved_report=report)
+
+    # NEW TTS ENDPOINT
+    @app.route('/tts/<int:report_id>', methods=["POST"])
+    @login_required
+    def generate_tts(report_id):
+        report = Report.query.get_or_404(report_id)
+        if report.user_id != current_user.id:
+            return jsonify({"error": "Unauthorized"}), 403
+        
+        try:
+            # Get voice_id from request, default to George
+            data = request.get_json() or {}
+            voice_id = data.get('voice_id', 'JBFqnCBsd6RMkjVDRZzb')
+            
+            client = ElevenLabs(api_key=os.getenv('ELEVENLABS_API_KEY'))
+            
+            # Convert report content (remove markdown formatting for better TTS)
+            text_content = report.content.replace('#', '').replace('*', '').replace('_', '')
+            
+            audio = client.text_to_speech.convert(
+                text=text_content,
+                voice_id=voice_id,
+                model_id="eleven_turbo_v2_5",
+                output_format="mp3_44100_128"
+            )
+            
+            # Stream the audio back to the client
+            def generate():
+                for chunk in audio:
+                    yield chunk
+            
+            return Response(generate(), mimetype="audio/mpeg")
+            
+        except Exception as e:
+            return jsonify({"error": str(e)}), 500
 
     @app.route('/reports/delete/<int:report_id>', methods=["POST"])
     @login_required
@@ -194,12 +229,3 @@ def register_routes(app):
         <url><loc>https://distillerat.com/terms</loc></url>
     </urlset>'''
         return Response(xml, mimetype='application/xml')
-            
-        
-
-## comment out before pushing to server
-
-    # @app.route('/error')
-    # def error():
-        # return render_template('error.html')
-        

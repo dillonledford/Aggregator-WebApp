@@ -61,7 +61,7 @@ h3 {
 	background-color: #1e2122;
 	border: 1px solid #333;
 	border-radius: 6px;
-	margin-top: 20px;
+	margin-top: 0px;
 	line-height: 1.7;
 	padding-right: 16px;
 	padding-left: 16px;
@@ -657,6 +657,155 @@ strong {
 	margin-top: 1%;
 	margin-bottom: 1%;
 }
+
+
+
+
+
+
+
+
+/* ------- ElevenLabs Text-to-speech Styling ------- */
+
+/* TTS Controls Styling */
+
+.tts-controls {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0px;
+    margin-bottom: 0px;
+	margin-top: 0px;
+    position: relative;
+}
+
+.tts-button {
+    background-color: #2b6d96;
+    color: #f5f5f5;
+    border: 1px solid #444;
+    padding: 2px 10px;
+    border-radius: 6px;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: background-color 0.2s;
+    margin-bottom: 0px;
+    min-height: 28px;
+}
+
+.voice-toggle {
+	margin-left: auto;
+	padding-left: 8px;
+	opacity: 0.7;
+	cursor: pointer;
+}
+
+.voice-toggle:hover {
+	opacity: 1;
+}
+
+.tts-button:hover:not(:disabled),
+.settings-button:hover {
+    background-color: #3c89bd;
+}
+
+.tts-button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.tts-button #tts-icon {
+    font-size: 20px;
+}
+
+.voice-settings {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #2a2d2e;
+    border: 1px solid #444;
+    border-radius: 6px;
+    padding: 12px 16px;
+    gap: 8px;
+    align-items: center;
+    margin-top: 0px;
+    z-index: 100;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+    white-space: nowrap;
+}
+
+.voice-settings.open {
+    display: flex;
+}
+
+.voice-settings label {
+    color: #87cefa;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.voice-settings select {
+    min-width: 200px;
+}
+
+.tts-status {
+    font-size: 14px;
+    color: #87cefa;
+    min-height: 20px;
+}
+
+@media (max-width: 700px) {
+    .tts-button {
+        font-size: 14px;
+        padding: 2px 8px;
+    }
+    
+    .settings-button {
+        font-size: 14px;
+        padding: 2px 8px;
+    }
+    
+    .tts-button #tts-icon {
+        font-size: 18px;
+    }
+    
+    .voice-settings {
+        flex-direction: column;
+        align-items: stretch;
+        left: 0;
+        transform: none;
+        right: 0;
+        margin-left: 12px;
+        margin-right: 12px;
+    }
+    
+    .voice-settings select {
+        width: 100%;
+        min-width: unset;
+    }
+}
+
+
+/* ---------- TTS END ---------- */
+
+/* ------- ElevenLabs Text-to-speech Styling ---- END --- */
+
+
+
+
+
+
+
+
+
+
+
 
 
 /* ------------ Mobile Response ------------ */
